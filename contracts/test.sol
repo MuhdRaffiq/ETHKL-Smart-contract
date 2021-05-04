@@ -1,6 +1,9 @@
 pragma solidity >=0.7.0 <0.9.0;
 
-contract ETHKLCharity {
+
+import "./ETHKLToken.sol";
+
+contract ETHKLCharity is ETHCHARITY {
     
     
     /**
@@ -9,13 +12,13 @@ contract ETHKLCharity {
      * their registration status saved in mapping
      */
     struct charity {
-        string charityName,
-        string charityDescription,
-        address charityAddress,
-        uint256 numVotes,
-    };
+        string charityName;
+        string charityDescription;
+        address charityAddress;
+        uint256 numVotes;
+    }
     
-    charities[] public registeredCharity;
+    charity[] public registeredCharity;
     
     mapping(address => bool) private statusCharity;
 
@@ -24,9 +27,9 @@ contract ETHKLCharity {
      * their data issaved in mapping and reference to the donor address
      */
      struct donor {
-         address donorAddress,
-         uint256 fundAmount,
-     };
+         address donorAddress;
+         uint256 fundAmount;
+     }
      
     mapping(address => donor) private donorFunds;
     
@@ -37,10 +40,10 @@ contract ETHKLCharity {
      *
      **/
      struct volunteer {
-         address volunteerAddress,
-         string charityName,
-         uint256 numVoteToken,
-     };
+         address volunteerAddress;
+         string charityName;
+         uint256 numVoteToken;
+     }
     
     mapping(address => volunteer) private volunteers;
     
@@ -49,10 +52,11 @@ contract ETHKLCharity {
     /**********************************************************/ 
     
     
-    constructor () {
+    constructor(string memory _name, string memory _symbol) ETHCHARITY(_name, _symbol) public {
         
     }
     
+
     /***********************************************************/
     /*                  MODIFIER FUNCTIONS                     */
     /**********************************************************/
@@ -68,7 +72,7 @@ contract ETHKLCharity {
      * this is where we 
      *
      **/
-    function checkPoolBalance () return (uint256 balance) {
+    function checkPoolBalance () {
         
     }
     
@@ -145,7 +149,7 @@ contract ETHKLCharity {
      * 
      * 
      */
-     function voteCharity (string charityName, uint256 numVotes,) {
+     function voteCharity (string charityName, uint256 numVotes) {
            
      }
        

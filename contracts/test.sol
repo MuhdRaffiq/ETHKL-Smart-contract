@@ -27,8 +27,9 @@ contract ETHKLCharity is ETHCHARITY {
      * their data issaved in mapping and reference to the donor address
      */
      struct donor {
-         address donorAddress;
+         bool paid;
          uint256 fundAmount;
+         uint256 numVoteToken;
      }
      
     mapping(address => donor) private donorFunds;
@@ -47,12 +48,23 @@ contract ETHKLCharity is ETHCHARITY {
     
     mapping(address => volunteer) private volunteers;
     
+    
+    /***********************************************************/
+    /*                      EVENTS                        */
+    /**********************************************************/ 
+    
+    
+    event donation(address donor, uint256 fundAmount, uint256 poolBalance);
+    
+    
     /***********************************************************/
     /*                  CONSTRUCTOR                           */
     /**********************************************************/ 
     
+    //@parameters are just input for the deployement of voting tokens
     
-    constructor(string memory _name, string memory _symbol) ETHCHARITY(_name, _symbol) public {
+    constructor(string memory _name, string memory _symbol, uint _totalSupply) ETHCHARITY(_name, _symbol, _totalSupply) public {
+        
         
     }
     
@@ -69,7 +81,7 @@ contract ETHKLCharity is ETHCHARITY {
     
     /**
      * @dev function to check pool balance
-     * this is where we 
+     * 
      *
      **/
     function checkPoolBalance () {
@@ -78,7 +90,7 @@ contract ETHKLCharity is ETHCHARITY {
     
     /**
      * @dev function to register the charity
-     * this is where we 
+     * 
      *
      **/
     function regsiterCharity (string _charityName, string _charityDescription, address payable _charityAddress) {
@@ -88,7 +100,7 @@ contract ETHKLCharity is ETHCHARITY {
     
     /**
      * @dev function to register the charity
-     * this is where we 
+     * 
      *
      **/
     function checkCharity () {
@@ -97,7 +109,7 @@ contract ETHKLCharity is ETHCHARITY {
     
     /**
      * @dev function to register the charity
-     * this is where we 
+     * 
      *
      **/
     function charityDetails () {
@@ -106,7 +118,7 @@ contract ETHKLCharity is ETHCHARITY {
     
     /**
      * @dev function to register the charity
-     * this is where we 
+     * 
      *
      **/
     function checkDonorFunds () {
@@ -131,8 +143,13 @@ contract ETHKLCharity is ETHCHARITY {
      * this is where we 
      *
      **/
-     function fundPool (uint256 donation, address payable donor) {
+     function fundPool () {
          
+         donorFunds[msg.sender].paid = true;
+         donorFunds[msg.sender].fundAmount = msg.value;
+         donorFunds[msg.sender].numVoteToken = 0; // some math needed to do here for mathematical calculation of prcentage in the pool
+         
+         emit donation(msg.sender, msg.value, address(this).balance);
      } 
      
     /**
@@ -142,6 +159,7 @@ contract ETHKLCharity is ETHCHARITY {
      */
      function receiveVotesDonor (address _donor) {
           
+          donorFunds[msg.sender].numVoteToken = 0; // some math needed to do here for mathematical calculation of prcentage in the pool
      }
       
     /**

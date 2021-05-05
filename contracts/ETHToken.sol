@@ -7,9 +7,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract ETHCHARITY is ERC20, Pausable, Ownable {
     
     
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+    constructor(string memory name, string memory symbol, uint256 totalSupply) ERC20(name, symbol) {
         
-        _mint(msg.sender, 1000000 * 10 ** decimals());
+        _mint(msg.sender, totalSupply * 10 ** decimals());
     }
 
     function pause() public onlyOwner {
